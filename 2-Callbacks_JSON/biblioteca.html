@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Biblioteca</title>
+</head>
+<body>
+  <h1>Gestión de Biblioteca</h1>
+  <p>Abre la consola del navegador para interactuar con la aplicación.</p>
+  <script>
+    // Datos iniciales de libros en formato JSON
+    let biblioteca = {
+      libros: [
+        { titulo: "Cien años de soledad", autor: "Gabriel García Márquez", genero: "Realismo mágico", disponible: true },
+        { titulo: "1984", autor: "George Orwell", genero: "Distopía", disponible: true }
+      ]
+    };
+
+    // Función para simular la lectura de datos (asimilar la lectura de un archivo JSON)
+    function leerDatos(callback) {
+      setTimeout(() => {
+        callback(biblioteca);
+      }, 1000);
+    }
+
+    // Función para simular la escritura de datos (asimilar la escritura en un archivo JSON)
+    function escribirDatos(nuevosDatos, callback) {
+      setTimeout(() => {
+        biblioteca = nuevosDatos;
+        callback();
+      }, 1000);
+    }
+
+    // Función para mostrar todos los libros en consola
+    function mostrarLibros() {
+      leerDatos((datos) => {
+        console.log("📚 Inventario de libros:");
+        datos.libros.forEach((libro, index) => {
+          console.log(`${index + 1}. ${libro.titulo} - ${libro.autor} (${libro.disponible ? 'Disponible' : 'Prestado'})`);
+        });
+      });
+    }
+
+    // Función para agregar un nuevo libro
+    function agregarLibro(titulo, autor, genero, disponible) {
+      leerDatos((datos) => {
+        const nuevoLibro = { titulo, autor, genero, disponible };
+        datos.libros.push(nuevoLibro);
+        escribirDatos(datos, () => {
+          console.log(`✅ Libro "${titulo}" agregado exitosamente.`);
+        });
+      });
+    }
+
+    // Función para cambiar la disponibilidad de un libro
+    function actualizarDisponibilidad(titulo, nuevoEstado) {
+      leerDatos((datos) => {
+        const libro = datos.libros.find((libro) => libro.titulo === titulo);
+        if (libro) {
+          libro.disponible = nuevoEstado;
+          escribirDatos(datos, () => {
+            console.log(`🔄 Disponibilidad del libro "${titulo}" actualizada a "${nuevoEstado ? 'Disponible' : 'Prestado'}".`);
+          });
+        } else {
+          console.log(`❌ Libro "${titulo}" no encontrado.`);
+        }
+      });
+    }
+
+    // Mensajes iniciales
+    console.log("¡Bienvenido a la Gestión de Biblioteca!");
+    console.log("Funciones disponibles:");
+    console.log("1. mostrarLibros() - Muestra todos los libros.");
+    console.log("2. agregarLibro(titulo, autor, genero, disponible) - Agrega un nuevo libro.");
+    console.log("3. actualizarDisponibilidad(titulo, nuevoEstado) - Cambia la disponibilidad de un libro.");
+    
+    // Llamada de ejemplo para iniciar el programa
+    mostrarLibros();
+  </script>
+</body>
+</html>
